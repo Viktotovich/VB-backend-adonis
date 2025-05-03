@@ -1,0 +1,28 @@
+import { DateTime } from 'luxon'
+import { BaseModel, column } from '@adonisjs/lucid/orm'
+
+export default class QualityLead extends BaseModel {
+  @column({ isPrimary: true })
+  declare id: number
+
+  @column()
+  declare hasWebsite: boolean
+
+  @column()
+  declare requirements: string
+
+  @column()
+  declare email: string
+
+  @column()
+  declare phoneNumber: number
+
+  @column()
+  declare additionalInformation: string
+
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}

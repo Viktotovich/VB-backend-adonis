@@ -14,7 +14,7 @@ export default class extends BaseSchema {
       table.string('slug').notNullable().unique()
 
       //References
-      table.integer('author_id').unsigned().references('user.id').notNullable().onDelete('CASCADE')
+      table.integer('author_id').unsigned().references('users.id').notNullable().onDelete('CASCADE')
       table.json('author_socials').nullable()
 
       // TODO: Must be a pivot table, as blogs probably should have many cats
