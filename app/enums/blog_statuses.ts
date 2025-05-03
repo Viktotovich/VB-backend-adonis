@@ -1,4 +1,4 @@
-enum BlogStatus {
+enum BlogStatuses {
   DRAFT = 1,
   UNDER_REVIEW = 2,
   PUBLISHED = 3,
@@ -6,4 +6,4 @@ enum BlogStatus {
   HIDDEN = 5,
 }
 
-export default BlogStatus
+export default BlogStatuses

@@ -1,5 +1,5 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
-import BlogStatus from '../../app/enums/blog_status.js'
+import BlogStatuses from '../../app/enums/blog_statuses.js'
 
 export default class extends BaseSchema {
   protected tableName = 'blogs'
@@ -21,7 +21,7 @@ export default class extends BaseSchema {
       //table.integer('category_id').references('categories.id').notNullable()
 
       //Enum
-      table.integer('approval').defaultTo(BlogStatus.DRAFT)
+      table.integer('approval').defaultTo(BlogStatuses.DRAFT)
 
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
