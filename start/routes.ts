@@ -11,13 +11,25 @@ import router from '@adonisjs/core/services/router'
 
 //Controllers
 const RegisterController = () => import('#controllers/auth/register_controller')
+const InquiriesController = () => import('#controllers/inquiries_controller')
 
+//Auth Router
 router
   .group(() => {
     router.post('/register', [RegisterController, 'store']).as('register.store')
   })
   .prefix('auth')
   .as('auth')
+
+//Inquiry Router ---- Leads API
+//TODO: must be protected with some key or/and CORS
+router
+  .group(() => {
+    router.post('/simple', [InquiriesController, 'storeEmail']).as('inquiry.simple')
+    router.post('/full', [InquiriesController, 'storeFull']).as('inquiry.full')
+  })
+  .prefix('/inquiry')
+  .as('inquiry')
 
 /*
   TODOs:
