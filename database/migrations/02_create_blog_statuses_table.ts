@@ -1,13 +1,12 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'user_roles'
+  protected tableName = 'blog_statuses'
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
 
-      //TODO: start the db with a role factory
       table.string('name', 50).notNullable().unique()
 
       table.timestamp('created_at')
