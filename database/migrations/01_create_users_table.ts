@@ -11,8 +11,9 @@ export default class extends BaseSchema {
       table.string('email', 254).notNullable().unique()
       table.string('password').notNullable()
 
+      // Role check + username visible to others
       table.string('username').notNullable().unique()
-      table.integer('user_role').unsigned().defaultTo(UserRoles.USER)
+      table.integer('role_id').unsigned().defaultTo(UserRoles.USER)
 
       //Blog and posts related info
       table.string('avatar_url').nullable()

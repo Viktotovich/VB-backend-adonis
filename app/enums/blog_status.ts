@@ -1,5 +1,5 @@
 enum BlogStatus {
-  PENDING = 1,
+  DRAFT = 1,
   UNDER_REVIEW = 2,
   PUBLISHED = 3,
   DENIED = 4,

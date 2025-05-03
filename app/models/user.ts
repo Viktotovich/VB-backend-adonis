@@ -23,11 +23,19 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column({ serializeAs: null })
   declare password: string
 
+  @column()
+  declare username: string
+
+  @column()
+  declare roleId: number
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+
+  //@belongsTo(() => Role)
 
   static accessTokens = DbAccessTokensProvider.forModel(User, {
     expiresIn: '30 days', // normally, never expiring

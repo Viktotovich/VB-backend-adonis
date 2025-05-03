@@ -21,7 +21,7 @@ export default class extends BaseSchema {
       //table.integer('category_id').references('categories.id').notNullable()
 
       //Enum
-      table.integer('approval').defaultTo(BlogStatus.PENDING)
+      table.integer('approval').defaultTo(BlogStatus.DRAFT)
 
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
