@@ -10,8 +10,8 @@ export default class extends BaseSchema {
       table.json('content').notNullable()
 
       //References
-      table.integer('author_id').unsigned().references('user.id').notNullable().onDelete('CASCADE')
-      table.integer('blog_id').unsigned().references('blog.id').notNullable().onDelete('CASCADE')
+      table.integer('author_id').unsigned().references('users.id').notNullable().onDelete('CASCADE')
+      table.integer('blog_id').unsigned().references('blogs.id').notNullable().onDelete('CASCADE')
       table.string('image_url').nullable() // if later on users can images
 
       table.timestamp('created_at')
