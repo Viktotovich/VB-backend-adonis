@@ -5,6 +5,10 @@ import UserRoles from '../../enums/user_roles.js'
 
 export default class RegisterController {
   async store({ request, response, auth }: HttpContext) {
+    if (request.input('roleId')) {
+      return response.unauthorized({ message: 'Lmao, you actually thought this would work?' })
+    }
+
     //1. validate input
     try {
       const { fullname, email, password, username } = await request.validateUsing(registerValidator)
