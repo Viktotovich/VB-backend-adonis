@@ -6,18 +6,33 @@ import UserRoles from '../../enums/user_roles.js'
 export default class RegisterController {
   async store({ request, response, auth }: HttpContext) {
     //1. validate input
-    const { fullname, email, password, username } = await request.validateUsing(registerValidator)
+    try {
+      const { fullname, email, password, username } = await request.validateUsing(registerValidator)
 
-    //2. create a user if all is well
-    const user = await User.create({
-      fullname,
-      email,
-      password,
-      username,
-      roleId: UserRoles.USER,
-    })
+      //2. create a user if all is well
+      const user = await User.create({
+        fullname,
+        email,
+        password,
+        username,
+        roleId: UserRoles.USER,
+      })
 
-    //3. Using the user data, sign-them in and send back a token
-    response.send('success')
+      //3. Get a valid token for the user
+      const token = await auth.use('api').createToken(user, ['server:read'], {
+        expiresIn: '30 days',
+      })
+
+      //4. Return to frontend
+      return response.send(token)
+    } catch (err) {
+      console.error(err)
+      //test with errors, duplicate emails and other things
+      return response.json({
+        allowRedirect: false,
+        status: 'failed',
+        errors: err,
+      })
+    }
   }
 }
