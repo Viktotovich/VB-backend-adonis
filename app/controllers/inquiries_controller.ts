@@ -1,18 +1,35 @@
+import EmailOnlyLead from '#models/email_only_lead'
+import QualityLead from '#models/quality_lead'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class InquiriesController {
   //TODO: validators(optional?) + rateLimitor(s)
   async storeEmail({ request, response }: HttpContext) {
-    const email = request.input('email')
+    const { email, hasWebsite } = request.body()
+
+    await EmailOnlyLead.create({
+      email: email,
+      hasWebsite: hasWebsite,
+    })
 
     return response.json({
       message:
-        'Thank you for submitting the form, our team will get back to you as soon as possible',
+        'Thank you for submitting the form, our team will get back to you as soon as possible!',
+      allowDisplay: true,
     })
   }
 
   async storeFull({ request, response }: HttpContext) {
     //catch the request fields
+    const { hasWebsite, requirements, email, phoneNumber, additionalInformation } = request.body()
+
+    await QualityLead.create({
+      hasWebsite,
+      requirements,
+      email,
+      phoneNumber,
+      additionalInformation,
+    })
     return response.json({
       message:
         'Thank you for submitting the form, our team will get back to you as soon as possible after carefully assessing your specific needs.',

@@ -8,6 +8,7 @@ export default class extends BaseSchema {
       table.increments('id')
 
       table.string('email').notNullable()
+      table.boolean('has_website').notNullable()
 
       table.timestamp('created_at')
       table.timestamp('updated_at')
