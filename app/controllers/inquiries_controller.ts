@@ -33,6 +33,7 @@ export default class InquiriesController {
     return response.json({
       message:
         'Thank you for submitting the form, our team will get back to you as soon as possible after carefully assessing your specific needs.',
+      allowDisplay: true,
     })
   }
 }
