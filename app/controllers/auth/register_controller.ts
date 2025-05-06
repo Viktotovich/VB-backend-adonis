@@ -35,7 +35,7 @@ export default class RegisterController {
       return response.json({
         allowRedirect: false,
         status: 'failed',
-        errors: err,
+        errors: err.messages || ['Something went wrong'],
       })
     }
   }
