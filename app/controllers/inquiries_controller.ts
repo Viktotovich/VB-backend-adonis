@@ -12,6 +12,8 @@ export default class InquiriesController {
       hasWebsite: hasWebsite,
     })
 
+    console.log('Partial Lead Registered')
+
     return response.json({
       message:
         'Thank you for submitting the form, our team will get back to you as soon as possible!',
@@ -30,6 +32,9 @@ export default class InquiriesController {
       phoneNumber,
       additionalInformation,
     })
+
+    console.log('Full Lead Registered')
+
     return response.json({
       message:
         'Thank you for submitting the form, our team will get back to you as soon as possible after carefully assessing your specific needs.',

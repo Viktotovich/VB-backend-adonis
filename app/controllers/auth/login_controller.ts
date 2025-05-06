@@ -1,3 +1,26 @@
-// import type { HttpContext } from '@adonisjs/core/http'
+import User from '#models/user'
+import { loginValidator } from '#validators/auth'
+import type { HttpContext } from '@adonisjs/core/http'
 
-export default class LoginController {}
+export default class LoginController {
+  async store({ request, response }: HttpContext) {
+    //1. Validate input
+    const { email, password } = await request.validateUsing(loginValidator)
+
+    try {
+      //Good scenario -- everything a-ok
+      //2. Verify credentials
+      const user = await User.verifyCredentials(email, password)
+      const token = await User.accessTokens.create(user, ['server:read'], {
+        expiresIn: '30 days',
+      })
+
+      //3. Return access tokens
+      return response.json(token)
+    } catch (err) {
+      //Bad Scenario -- something went wrong
+      console.error('User login error: ' + err)
+      return response.unauthorized({ messages: 'Invalid email or password' })
+    }
+  }
+}

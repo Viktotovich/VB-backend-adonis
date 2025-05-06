@@ -11,12 +11,14 @@ import router from '@adonisjs/core/services/router'
 
 //Controllers
 const RegisterController = () => import('#controllers/auth/register_controller')
+const LoginController = () => import('#controllers/auth/login_controller')
 const InquiriesController = () => import('#controllers/inquiries_controller')
 
 //Auth Router
 router
   .group(() => {
     router.post('/register', [RegisterController, 'store']).as('register.store')
+    router.post('/login', [LoginController, 'store']).as('login.store')
   })
   .prefix('auth')
   .as('auth')
