@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.boolean('has_website').notNullable()
       table.string('requirements').nullable()
       table.string('email').notNullable()
-      table.integer('phone_number').nullable()
+      table.string('phone_number').nullable()
       table.string('additional_information', 500).nullable()
 
       table.timestamp('created_at')

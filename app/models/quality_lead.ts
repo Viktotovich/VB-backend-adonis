@@ -15,7 +15,7 @@ export default class QualityLead extends BaseModel {
   declare email: string
 
   @column()
-  declare phoneNumber: number
+  declare phoneNumber: string
 
   @column()
   declare additionalInformation: string
