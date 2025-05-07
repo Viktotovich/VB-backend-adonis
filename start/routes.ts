@@ -13,9 +13,11 @@ import router from '@adonisjs/core/services/router'
 const RegisterController = () => import('#controllers/auth/register_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
 const InquiriesController = () => import('#controllers/inquiries_controller')
+const DashboardController = () => import('#controllers/dashboard_controller')
 
 //Rate Limitors
 import { throttleLogin, throttleRegister, throttleGlobal } from './limiter.js'
+import { middleware } from './kernel.js'
 
 //Auth Router
 router
@@ -26,12 +28,13 @@ router
       .use([throttleRegister])
 
     router.post('/login', [LoginController, 'store']).as('login.store').use([throttleLogin])
+
+    //create a sign-out route
   })
   .prefix('auth')
   .as('auth')
 
 //Inquiry Router ---- Leads API
-//TODO: must be protected with some key or/and CORS
 router
   .group(() => {
     router.post('/simple', [InquiriesController, 'storeEmail']).as('inquiry.simple')
@@ -40,6 +43,19 @@ router
   .prefix('/inquiry')
   .as('inquiry')
   .use([throttleGlobal])
+
+//Dashboard Router
+router
+  .group(() => {
+    router.get('/', [DashboardController, 'show']).as('dashboard.show')
+  })
+  .prefix('/dashboard-data')
+  .as('dashboard-data')
+  .use(
+    middleware.auth({
+      guards: ['api'],
+    })
+  )
 
 /*
   TODOs:
