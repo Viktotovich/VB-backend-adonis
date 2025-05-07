@@ -14,11 +14,18 @@ const RegisterController = () => import('#controllers/auth/register_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
 const InquiriesController = () => import('#controllers/inquiries_controller')
 
+//Rate Limitors
+import { throttleLogin, throttleRegister, throttleGlobal } from './limiter.js'
+
 //Auth Router
 router
   .group(() => {
-    router.post('/register', [RegisterController, 'store']).as('register.store')
-    router.post('/login', [LoginController, 'store']).as('login.store')
+    router
+      .post('/register', [RegisterController, 'store'])
+      .as('register.store')
+      .use([throttleRegister])
+
+    router.post('/login', [LoginController, 'store']).as('login.store').use([throttleLogin])
   })
   .prefix('auth')
   .as('auth')
@@ -32,6 +39,7 @@ router
   })
   .prefix('/inquiry')
   .as('inquiry')
+  .use([throttleGlobal])
 
 /*
   TODOs:
