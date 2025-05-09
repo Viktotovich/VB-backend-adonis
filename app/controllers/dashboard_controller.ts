@@ -1,11 +1,17 @@
+import Post from '#models/post'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class DashboardController {
-  async show({ request, response, auth }: HttpContext) {
-    /*separate data based on whether client is User | Student | Editor | Poster | 
-    Admin */
-    console.log(auth.user)
+  async show({ request, response }: HttpContext) {
+    const page = request.input('page', 1)
+    const limit = request.input('limit', 10)
 
-    return response.json({ message: 'success' })
+    //include likes and comments
+    const posts = await Post.query()
+      .preload('author')
+      .orderBy('createdAt', 'desc')
+      .paginate(page, limit)
+
+    return response.json(posts)
   }
 }

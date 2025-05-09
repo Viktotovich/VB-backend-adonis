@@ -24,7 +24,9 @@ export default class Post extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  @belongsTo(() => User)
+  @belongsTo(() => User, {
+    foreignKey: 'authorId',
+  })
   declare author: BelongsTo<typeof User>
 
   @hasMany(() => PostLike)

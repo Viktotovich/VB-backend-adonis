@@ -14,6 +14,7 @@ const RegisterController = () => import('#controllers/auth/register_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
 const InquiriesController = () => import('#controllers/inquiries_controller')
 const DashboardController = () => import('#controllers/dashboard_controller')
+const PostsController = () => import('#controllers/posts_controller')
 
 //Rate Limitors
 import { throttleLogin, throttleRegister, throttleGlobal } from './limiter.js'
@@ -49,13 +50,22 @@ router
   .group(() => {
     router.get('/', [DashboardController, 'show']).as('dashboard.show')
   })
-  .prefix('/dashboard-data')
-  .as('dashboard-data')
+  .prefix('/dashboard')
+  .as('dashboard')
   .use(
     middleware.auth({
       guards: ['api'],
     })
   )
+
+//Posts Router
+router
+  .group(() => {
+    router.post('/new', [PostsController, 'store']).as('posts.store')
+  })
+  .prefix('posts')
+  .as('posts')
+  .use(middleware.auth({ guards: ['api'] }))
 
 /*
   TODOs:
