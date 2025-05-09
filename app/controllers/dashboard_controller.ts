@@ -9,6 +9,8 @@ export default class DashboardController {
     //include likes and comments
     const posts = await Post.query()
       .preload('author')
+      .preload('likes')
+      .preload('replies')
       .orderBy('createdAt', 'desc')
       .paginate(page, limit)
 

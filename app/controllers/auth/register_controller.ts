@@ -42,7 +42,7 @@ export default class RegisterController {
       })
 
       //4. Return to frontend
-      return response.json({ token, allowRedirect: true, type: 'bearer' })
+      return response.json({ token, allowRedirect: true, type: 'bearer', userId: user.id })
     } catch (err) {
       console.error(err)
       //test with errors, duplicate emails and other things

@@ -16,7 +16,7 @@ export default class LoginController {
       })
 
       //3. Return access tokens
-      return response.json({ token, allowRedirect: true, type: 'bearer' })
+      return response.json({ token, allowRedirect: true, type: 'bearer', userId: user.id })
     } catch (err) {
       //Bad Scenario -- something went wrong
       console.error('User login error: ' + err)

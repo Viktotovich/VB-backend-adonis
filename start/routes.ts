@@ -62,8 +62,9 @@ router
 router
   .group(() => {
     router.post('/new', [PostsController, 'store']).as('posts.store')
+    router.post('/:postId/like', [PostsController, 'like']).as('post.like')
   })
-  .prefix('posts')
+  .prefix('/posts')
   .as('posts')
   .use(middleware.auth({ guards: ['api'] }))
 
