@@ -11,6 +11,9 @@ export default class EmailOnlyLead extends BaseModel {
   @column()
   declare hasWebsite: boolean
 
+  @column()
+  declare leadStatus: number
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

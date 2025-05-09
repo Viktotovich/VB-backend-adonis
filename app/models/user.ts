@@ -8,6 +8,9 @@ import Role from './role.js'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Comment from './comment.js'
 import Blog from './blog.js'
+import Post from './post.js'
+import PostLike from './post_like.js'
+import PostReply from './post_reply.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -47,6 +50,15 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @hasMany(() => Blog)
   declare blogs: HasMany<typeof Blog>
+
+  @hasMany(() => Post)
+  declare posts: HasMany<typeof Post>
+
+  @hasMany(() => PostLike)
+  declare likes: HasMany<typeof PostLike>
+
+  @hasMany(() => PostReply)
+  declare replies: HasMany<typeof PostReply>
 
   static accessTokens = DbAccessTokensProvider.forModel(User, {
     expiresIn: '30 days', // normally, never expiring

@@ -71,4 +71,6 @@ router
 
   5 - Somehow ensure that only the frontend can send that data, probs CORS + 
   some form of XSS protection
+
+  6 - Consider making a honeypot route
 */

@@ -20,6 +20,9 @@ export default class QualityLead extends BaseModel {
   @column()
   declare additionalInformation: string
 
+  @column()
+  declare leadStatus: number
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

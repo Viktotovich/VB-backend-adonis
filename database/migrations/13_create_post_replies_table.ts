@@ -1,18 +1,17 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
-import LeadStatuses from '../../app/enums/lead_statuses.js'
 
 export default class extends BaseSchema {
-  protected tableName = 'email_only_leads'
+  protected tableName = 'post_replies'
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
 
-      table.string('email').notNullable()
-      table.boolean('has_website').notNullable()
+      table.string('content', 400).notNullable()
 
-      //status
-      table.integer('lead_status').defaultTo(LeadStatuses.NEW)
+      //references
+      table.integer('post_id').unsigned().references('posts.id').notNullable().onDelete('CASCADE')
+      table.integer('author_id').unsigned().references('users.id').notNullable().onDelete('CASCADE')
 
       table.timestamp('created_at')
       table.timestamp('updated_at')
