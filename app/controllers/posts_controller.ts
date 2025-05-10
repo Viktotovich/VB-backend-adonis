@@ -35,8 +35,8 @@ export default class PostsController {
       return response.status(202).json({ message: 'success' })
     } else {
       //If doesnt exist, like
-      await PostLike.create({ postId, userId })
-      return response.status(202).json({ message: 'success' })
+      const newLike = await PostLike.create({ postId, userId })
+      return response.status(202).json({ message: 'success', likeId: newLike.id })
     }
   }
 }
