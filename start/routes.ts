@@ -15,6 +15,7 @@ const LoginController = () => import('#controllers/auth/login_controller')
 const InquiriesController = () => import('#controllers/inquiries_controller')
 const DashboardController = () => import('#controllers/dashboard_controller')
 const PostsController = () => import('#controllers/posts_controller')
+const ProfilesController = () => import('#controllers/profiles_controller')
 
 //Rate Limitors
 import { throttleLogin, throttleRegister, throttleGlobal } from './limiter.js'
@@ -68,6 +69,13 @@ router
   .as('posts')
   .use(middleware.auth({ guards: ['api'] }))
 
+router
+  .group(() => {
+    router.get('/avatar', [ProfilesController, 'getAvatar']).as('profile.getAvatar')
+  })
+  .prefix('/profile')
+  .as('profile')
+  .use(middleware.auth({ guards: ['api'] }))
 /*
   TODOs:
   1 - Inquiry table without auth to receive people who come to the landing page and

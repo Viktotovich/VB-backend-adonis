@@ -1,5 +1,9 @@
 enum UserAvatars {
-  DEFAULT = 'https://asset.cloudinary.com/dxryzhwxi/a2886047dc75f16d39f1aa6fb21ff643',
+  USER = 'https://res.cloudinary.com/dxryzhwxi/image/upload/v1746885443/Unknown_User_wj7oxm.svg',
+  STUDENT = 'https://res.cloudinary.com/dxryzhwxi/image/upload/v1746886374/3_ga67as.svg',
+  EDITOR = 'https://res.cloudinary.com/dxryzhwxi/image/upload/v1746886374/2_j4vthf.svg',
+  POSTER = 'https://res.cloudinary.com/dxryzhwxi/image/upload/v1746886374/4_lyxsrw.svg',
+  ADMIN = 'https://res.cloudinary.com/dxryzhwxi/image/upload/v1746886374/5_gokucn.svg',
 }
 
 export default UserAvatars
