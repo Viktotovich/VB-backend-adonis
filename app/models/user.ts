@@ -1,16 +1,17 @@
 import { DateTime } from 'luxon'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, belongsTo, column, hasMany, hasOne } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import Role from './role.js'
-import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import type { BelongsTo, HasMany, HasOne } from '@adonisjs/lucid/types/relations'
 import Comment from './comment.js'
 import Blog from './blog.js'
 import Post from './post.js'
 import PostLike from './post_like.js'
 import PostReply from './post_reply.js'
+import UserProfile from './user_profile.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -62,6 +63,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @hasMany(() => PostReply)
   declare replies: HasMany<typeof PostReply>
+
+  @hasOne(() => UserProfile)
+  declare profile: HasOne<typeof UserProfile>
 
   static accessTokens = DbAccessTokensProvider.forModel(User, {
     expiresIn: '30 days', // normally, never expiring
