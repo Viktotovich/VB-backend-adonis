@@ -17,6 +17,7 @@ const DashboardController = () => import('#controllers/dashboard_controller')
 const PostsController = () => import('#controllers/posts_controller')
 const ProfilesController = () => import('#controllers/profiles_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
+const AdminController = () => import('#controllers/confidential/admin_controller')
 
 //Rate Limitors
 import { throttleLogin, throttleRegister, throttleGlobal } from './limiter.js'
@@ -70,13 +71,25 @@ router
   .as('posts')
   .use(middleware.auth({ guards: ['api'] }))
 
+//Profile Router
 router
   .group(() => {
+    router.get('/', [ProfilesController, 'all']).as('profile.all')
     router.get('/avatar', [ProfilesController, 'getAvatar']).as('profile.getAvatar')
   })
   .prefix('/profile')
   .as('profile')
   .use(middleware.auth({ guards: ['api'] }))
+
+//Admins Only Router
+router
+  .group(() => {
+    router.get('/', [AdminController, 'show']).as('admin.show')
+  })
+  .prefix('/admins') //admins because /admin is something bots will sniff out
+  .as('admins')
+  .use(middleware.auth({ guards: ['api'] }))
+
 /*
   TODOs:
   1 - Inquiry table without auth to receive people who come to the landing page and
