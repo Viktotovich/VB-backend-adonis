@@ -75,6 +75,7 @@ router
 router
   .group(() => {
     router.get('/', [ProfilesController, 'all']).as('profile.all')
+    router.put('/:userId/update', [ProfilesController, 'update']).as('profile.update')
     router.get('/avatar', [ProfilesController, 'getAvatar']).as('profile.getAvatar')
   })
   .prefix('/profile')

@@ -16,13 +16,13 @@ export default class extends BaseSchema {
       table.string('bio', 1000).nullable()
 
       //URLs
-      table.string('linkedin_url').nullable()
-      table.string('instagram_url').nullable()
-      table.string('additional_url').nullable()
-      table.string('additional_url_name', 75).nullable()
+      table.string('linkedin_url', 120).nullable() //120 chars @ updateProfileValidator
+      table.string('instagram_url', 120).nullable()
+      table.string('additional_url', 120).nullable()
+      table.string('additional_url_name', 150).nullable()
 
       //Contact Information
-      table.string('mobile_number').nullable()
+      table.string('mobile_number', 20).nullable()
       table.string('profile_title', 150).nullable()
 
       table.timestamp('created_at')
