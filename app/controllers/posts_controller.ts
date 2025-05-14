@@ -1,18 +1,19 @@
 import Post from '#models/post'
 import PostLike from '#models/post_like'
+import { newPostValidator } from '#validators/post'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class PostsController {
   async store({ request, response, auth }: HttpContext) {
     //1. Validate the data
-    const { title, content } = request.body()
+    const { title, content } = await request.validateUsing(newPostValidator)
     //2. Find the user
     const userId = auth.user?.$original.id
 
     //3. Attach the post to the user, and create the post
     const post = await Post.create({
-      title,
-      content,
+      title: title,
+      content: content,
       authorId: userId,
     })
 

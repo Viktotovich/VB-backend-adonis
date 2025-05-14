@@ -15,7 +15,7 @@ const LoginController = () => import('#controllers/auth/login_controller')
 const InquiriesController = () => import('#controllers/inquiries_controller')
 const DashboardController = () => import('#controllers/dashboard_controller')
 const PostsController = () => import('#controllers/posts_controller')
-const ProfilesController = () => import('#controllers/profiles_controller')
+const ProfilesController = () => import('#controllers/globals/profiles_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
 const AdminController = () => import('#controllers/confidential/admin_controller')
 
