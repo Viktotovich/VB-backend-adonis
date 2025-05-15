@@ -17,7 +17,6 @@ export default class ProfilesController {
   }
 
   async update({ request, response, auth }: HttpContext) {
-    //https://tailwindflex.com/@nejaa-badr/profile-page << Reference
     const user = auth.user
 
     //We have the middleware doing this, but TypeScript enforces this
