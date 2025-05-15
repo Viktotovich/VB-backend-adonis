@@ -93,6 +93,10 @@ router
       .get('/', [ProfilesController, 'private'])
       .as('profile.private')
       .use(middleware.auth({ guards: ['api'] }))
+    router
+      .post('/upload-avatar', [ProfilesController, 'uploadAvatar'])
+      .as('profile.upload')
+      .use(middleware.auth({ guards: ['api'] }))
   })
   .prefix('/profile')
   .as('profile')

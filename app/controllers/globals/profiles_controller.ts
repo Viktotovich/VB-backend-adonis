@@ -2,6 +2,7 @@ import User from '#models/user'
 import UserProfile from '#models/user_profile'
 import { updateProfileValidator } from '#validators/profile'
 import type { HttpContext } from '@adonisjs/core/http'
+import { v2 as cloudinary } from 'cloudinary'
 
 export default class ProfilesController {
   //Change to make it globally viewable
@@ -128,5 +129,47 @@ export default class ProfilesController {
       profileData: profileData,
       editable: true,
     })
+  }
+
+  async uploadAvatar({ request, response, auth }: HttpContext) {
+    const user = auth.user
+    if (!user) {
+      return response.unauthorized()
+    }
+
+    const avatarFile = request.file('avatarUrl', {
+      size: '1mb',
+      extnames: ['jpg', 'png', 'jpeg', 'gif', 'webp'],
+    })
+
+    if (!avatarFile) {
+      return response.badRequest({ error: 'No avatar file uploaded' })
+    }
+
+    if (!avatarFile.isValid) {
+      return response.badRequest({ error: avatarFile.errors })
+    }
+
+    const tmpPath = avatarFile.tmpPath
+
+    if (!tmpPath) {
+      return response.internalServerError({ error: 'Could not access file path' })
+    }
+
+    try {
+      const result = await cloudinary.uploader.upload(tmpPath, {
+        folder: 'avatars',
+        public_id: `user_${user.id}`,
+        overwrite: true,
+      })
+
+      user.avatarUrl = result.secure_url
+      await user.save()
+
+      return response.json({ avatarUrl: result.secure_url })
+    } catch (err) {
+      console.error(err)
+      return response.internalServerError({ error: 'Upload to Cloudinary failed' })
+    }
   }
 }
