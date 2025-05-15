@@ -80,11 +80,11 @@ router
 //Profile Router
 router
   .group(() => {
-    // Public routes
-    router.get('/:username', [ProfilesController, 'public']).as('profile.public')
-    router.get('/:username/avatar', [ProfilesController, 'getAvatar']).as('profile.getAvatar')
-
     // Protected: only the owner can update their profile
+    router
+      .get('/private/avatar', [ProfilesController, 'getAvatarPrivate'])
+      .as('profile.avatar.private')
+      .use(middleware.auth({ guards: ['api'] }))
     router
       .put('/:userId/', [ProfilesController, 'update'])
       .as('profile.update')
@@ -97,6 +97,10 @@ router
       .post('/upload-avatar', [ProfilesController, 'uploadAvatar'])
       .as('profile.upload')
       .use(middleware.auth({ guards: ['api'] }))
+
+    // Public routes
+    router.get('/:username', [ProfilesController, 'public']).as('profile.public')
+    router.get('/:username/avatar', [ProfilesController, 'getAvatar']).as('profile.getAvatar')
   })
   .prefix('/profile')
   .as('profile')

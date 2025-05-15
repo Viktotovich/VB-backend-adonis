@@ -172,4 +172,14 @@ export default class ProfilesController {
       return response.internalServerError({ error: 'Upload to Cloudinary failed' })
     }
   }
+
+  getAvatarPrivate({ response, auth }: HttpContext) {
+    const user = auth.user
+
+    if (!user) {
+      return response.unauthorized()
+    }
+
+    return response.json({ avatarUrl: user.avatarUrl })
+  }
 }
