@@ -32,7 +32,7 @@ export default class UserProfile extends BaseModel {
   declare mobileNumber: string | number
 
   @column()
-  declare profile_title: string
+  declare profileTitle: string
 
   @column()
   declare color: string
