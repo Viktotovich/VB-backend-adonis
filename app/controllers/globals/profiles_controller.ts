@@ -5,10 +5,15 @@ import type { HttpContext } from '@adonisjs/core/http'
 
 export default class ProfilesController {
   //Change to make it globally viewable
-  async getAvatar({ response, auth }: HttpContext) {
-    const user = auth.user
+  async getAvatar({ request, response }: HttpContext) {
+    const username = request.param('username')
+    const foundUser = await User.findBy('username', username)
 
-    return response.json({ avatarUrl: user?.avatarUrl })
+    if (!foundUser) {
+      return response.notFound({ message: 'Could not find the user' })
+    }
+
+    return response.json({ avatarUrl: foundUser.avatarUrl })
   }
 
   async update({ request, response, auth }: HttpContext) {
@@ -21,7 +26,7 @@ export default class ProfilesController {
     }
 
     //Authed user trying to change another user's profile
-    if (user.id !== request.param('userId')) {
+    if (user.id !== Number(request.param('userId'))) {
       return response.unauthorized()
     }
 
@@ -37,7 +42,7 @@ export default class ProfilesController {
 
     //Filter undefined data
     const filteredData = Object.fromEntries(
-      Object.entries(validatedData).filter(([key, value]) => value !== undefined)
+      Object.entries(validatedData).filter(([_, value]) => value !== undefined)
     )
 
     //Merge all the properties into the userProfile
@@ -82,7 +87,7 @@ export default class ProfilesController {
       })
     }
 
-    if (foundUser.id === auth.user.id) {
+    if (foundUser.id === user.id) {
       return response.json({
         profileData: profileData,
         editable: true,

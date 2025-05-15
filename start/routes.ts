@@ -76,12 +76,14 @@ router
   .group(() => {
     //TODO: Might need to disable auth middleware on this specific route
     router.get('/:username', [ProfilesController, 'all']).as('profile.all')
-    router.put('/:userId/update', [ProfilesController, 'update']).as('profile.update')
-    router.get('/avatar', [ProfilesController, 'getAvatar']).as('profile.getAvatar')
+    router
+      .put('/:userId/update', [ProfilesController, 'update'])
+      .as('profile.update')
+      .use(middleware.auth({ guards: ['api'] }))
+    router.get('/:username/avatar', [ProfilesController, 'getAvatar']).as('profile.getAvatar')
   })
   .prefix('/profile')
   .as('profile')
-  .use(middleware.auth({ guards: ['api'] }))
 
 //Admins Only Router
 router
