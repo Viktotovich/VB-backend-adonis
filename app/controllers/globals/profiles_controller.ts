@@ -53,7 +53,7 @@ export default class ProfilesController {
   }
 
   //Other users can see other users' profiles
-  async all({ request, response, auth }: HttpContext) {
+  async public({ request, response, auth }: HttpContext) {
     const user = auth.user
     const username = request.param('username')
 
@@ -74,7 +74,6 @@ export default class ProfilesController {
         fullname: foundUser.fullname,
         username: foundUser.username,
         avatarUrl: foundUser.avatarUrl,
-        updatedAt: foundUser.updatedAt,
         posts: foundUser.posts,
         likes: foundUser.likes,
       },
@@ -98,6 +97,35 @@ export default class ProfilesController {
     return response.json({
       profileData: profileData,
       editable: false,
+    })
+  }
+
+  async private({ response, auth }: HttpContext) {
+    const user = auth.user
+    if (!user) {
+      return response.unauthorized()
+    }
+
+    const userProfile = await UserProfile.findBy('owner_id', user.id)
+
+    if (!userProfile) {
+      return response.notFound()
+    }
+
+    const profileData = {
+      userProfile: userProfile,
+      userData: {
+        fullname: user.fullname,
+        username: user.username,
+        avatarUrl: user.avatarUrl,
+        posts: user.posts,
+        likes: user.likes,
+      },
+    }
+
+    return response.json({
+      profileData: profileData,
+      editable: true,
     })
   }
 }

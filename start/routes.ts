@@ -81,13 +81,17 @@ router
 router
   .group(() => {
     // Public routes
-    router.get('/:username', [ProfilesController, 'all']).as('profile.all')
+    router.get('/:username', [ProfilesController, 'public']).as('profile.public')
     router.get('/:username/avatar', [ProfilesController, 'getAvatar']).as('profile.getAvatar')
 
     // Protected: only the owner can update their profile
     router
       .put('/:userId/', [ProfilesController, 'update'])
       .as('profile.update')
+      .use(middleware.auth({ guards: ['api'] }))
+    router
+      .get('/:id', [ProfilesController, 'private'])
+      .as('profile.private')
       .use(middleware.auth({ guards: ['api'] }))
   })
   .prefix('/profile')
