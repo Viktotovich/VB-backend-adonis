@@ -15,5 +15,9 @@ export const updateProfileValidator = vine.compile(
     //Optional: user added contact number >> no email because, it's on the User Model
     mobileNumber: vine.string().mobile().minLength(5).maxLength(20).nullable(),
     profileTitle: vine.string().alphaNumeric().minLength(3).maxLength(150),
+    color: vine
+      .string()
+      .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/)
+      .optional(),
   })
 )

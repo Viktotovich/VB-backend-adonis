@@ -25,7 +25,8 @@ export default class extends BaseSchema {
       table.string('mobile_number', 20).nullable()
       table.string('profile_title', 150).nullable()
 
-      //Auxillary >> profileColors?
+      //Auxillary
+      table.string('color', 7).nullable()
 
       table.timestamp('created_at')
       table.timestamp('updated_at')

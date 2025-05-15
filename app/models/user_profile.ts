@@ -34,6 +34,9 @@ export default class UserProfile extends BaseModel {
   @column()
   declare profile_title: string
 
+  @column()
+  declare color: string
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
