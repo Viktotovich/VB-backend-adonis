@@ -75,6 +75,7 @@ export default class ProfilesController {
         avatarUrl: foundUser.avatarUrl,
         posts: foundUser.posts,
         likes: foundUser.likes,
+        roleId: foundUser.roleId,
       },
     }
 
@@ -119,6 +120,7 @@ export default class ProfilesController {
         avatarUrl: user.avatarUrl,
         posts: user.posts,
         likes: user.likes,
+        roleId: user.roleId,
       },
     }
 

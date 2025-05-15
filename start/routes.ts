@@ -90,7 +90,7 @@ router
       .as('profile.update')
       .use(middleware.auth({ guards: ['api'] }))
     router
-      .get('/:id', [ProfilesController, 'private'])
+      .get('/', [ProfilesController, 'private'])
       .as('profile.private')
       .use(middleware.auth({ guards: ['api'] }))
   })
