@@ -74,7 +74,8 @@ router
 //Profile Router
 router
   .group(() => {
-    router.get('/', [ProfilesController, 'all']).as('profile.all')
+    //TODO: Might need to disable auth middleware on this specific route
+    router.get('/:username', [ProfilesController, 'all']).as('profile.all')
     router.put('/:userId/update', [ProfilesController, 'update']).as('profile.update')
     router.get('/avatar', [ProfilesController, 'getAvatar']).as('profile.getAvatar')
   })

@@ -8,6 +8,9 @@ export default class UserProfile extends BaseModel {
   declare id: number
 
   @column()
+  declare ownerId: number
+
+  @column()
   declare profileStatus: number
 
   @column()

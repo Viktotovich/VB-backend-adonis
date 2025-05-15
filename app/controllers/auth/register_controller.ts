@@ -6,6 +6,8 @@ import UserRoles from '../../enums/user_roles.js'
 //email related
 import mail from '@adonisjs/mail/services/main'
 import CreateThankYouMessage from '#start/emails/thank_you'
+import UserProfile from '#models/user_profile'
+import ProfileStatus from '../../enums/profile_status.js'
 
 export default class RegisterController {
   async store({ request, response, auth }: HttpContext) {
@@ -24,6 +26,12 @@ export default class RegisterController {
         password,
         username,
         roleId: UserRoles.USER,
+      })
+
+      //2.5 Make a user profile upon register
+      await UserProfile.create({
+        ownerId: user.id,
+        profileStatus: ProfileStatus.INCOMPLETE,
       })
 
       //3. Get a valid token for the user

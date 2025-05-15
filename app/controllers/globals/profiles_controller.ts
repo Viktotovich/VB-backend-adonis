@@ -1,7 +1,10 @@
+import User from '#models/user'
+import UserProfile from '#models/user_profile'
 import { updateProfileValidator } from '#validators/profile'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class ProfilesController {
+  //Change to make it globally viewable
   async getAvatar({ response, auth }: HttpContext) {
     const user = auth.user
 
@@ -18,43 +21,78 @@ export default class ProfilesController {
     }
 
     //Authed user trying to change another user's profile
-    if (auth.user !== request.param('userId')) {
+    if (user.id !== request.param('userId')) {
       return response.unauthorized()
     }
 
     //Validate and accept
-    const {
-      bio,
-      linkedinUrl,
-      instagramUrl,
-      additionalUrl,
-      additionalUrlName,
-      mobileNumber,
-      profileTitle,
-    } = await request.validateUsing(updateProfileValidator)
+    const validatedData = await request.validateUsing(updateProfileValidator)
 
-    //Create a new profile if doesnt exist
-  }
+    //User profile will always exist
+    const userProfile = await UserProfile.findBy('owner_id', user.id)
 
-  async all({ response, auth }: HttpContext) {
-    const user = auth.user
-
-    if (!user) {
+    if (!userProfile || userProfile.ownerId !== user.id) {
       return response.unauthorized()
     }
 
-    return response.json({
-      profileData: {
-        id: user.id,
-        fullName: user.fullname,
-        username: user.username,
-        roleId: user.roleId,
-        avatarUrl: user.avatarUrl,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-        posts: user.posts,
-        likes: user.likes,
+    //Filter undefined data
+    const filteredData = Object.fromEntries(
+      Object.entries(validatedData).filter(([key, value]) => value !== undefined)
+    )
+
+    //Merge all the properties into the userProfile
+    userProfile.merge(filteredData)
+    await userProfile.save()
+
+    return response.ok({ message: 'Profile updated succesfully', profileData: userProfile })
+  }
+
+  //Other users can see other users' profiles
+  async all({ request, response, auth }: HttpContext) {
+    const user = auth.user
+    const username = request.param('username')
+
+    const foundUser = await User.findBy('username', username)
+
+    if (!foundUser) {
+      return response.notFound({ message: 'Could not find the user profile' })
+    }
+
+    const userProfile = await UserProfile.findBy('owner_id', foundUser.id)
+    if (!userProfile) {
+      return response.notFound({ message: 'Could not find the user profile' })
+    }
+
+    const profileData = {
+      userProfile: userProfile,
+      userData: {
+        fullname: foundUser.fullname,
+        username: foundUser.username,
+        avatarUrl: foundUser.avatarUrl,
+        updatedAt: foundUser.updatedAt,
+        posts: foundUser.posts,
+        likes: foundUser.likes,
       },
+    }
+
+    if (!user) {
+      return response.json({
+        profileData: profileData,
+        editable: false,
+      })
+    }
+
+    if (foundUser.id === auth.user.id) {
+      return response.json({
+        profileData: profileData,
+        editable: true,
+      })
+    }
+
+    //user is authenticated, but not the owner of the profile
+    return response.json({
+      profileData: profileData,
+      editable: false,
     })
   }
 }
