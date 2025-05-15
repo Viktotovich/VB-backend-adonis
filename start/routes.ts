@@ -20,7 +20,13 @@ const LogoutController = () => import('#controllers/auth/logout_controller')
 const AdminController = () => import('#controllers/confidential/admin_controller')
 
 //Rate Limitors
-import { throttleLogin, throttleRegister, throttleGlobal } from './limiter.js'
+import {
+  throttleLogin,
+  throttleRegister,
+  throttleGlobal,
+  throttleLikes,
+  throttlePosts,
+} from './limiter.js'
 import { middleware } from './kernel.js'
 
 //Auth Router
@@ -64,8 +70,8 @@ router
 //Posts Router
 router
   .group(() => {
-    router.post('/new', [PostsController, 'store']).as('posts.store')
-    router.post('/:postId/like', [PostsController, 'like']).as('post.like')
+    router.post('/new', [PostsController, 'store']).as('posts.store').use([throttlePosts])
+    router.post('/:postId/like', [PostsController, 'like']).as('post.like').use([throttleLikes])
   })
   .prefix('/posts')
   .as('posts')
@@ -74,13 +80,15 @@ router
 //Profile Router
 router
   .group(() => {
-    //TODO: Might need to disable auth middleware on this specific route
+    // Public routes
     router.get('/:username', [ProfilesController, 'all']).as('profile.all')
+    router.get('/:username/avatar', [ProfilesController, 'getAvatar']).as('profile.getAvatar')
+
+    // Protected: only the owner can update their profile
     router
-      .put('/:userId/update', [ProfilesController, 'update'])
+      .put('/:userId/', [ProfilesController, 'update'])
       .as('profile.update')
       .use(middleware.auth({ guards: ['api'] }))
-    router.get('/:username/avatar', [ProfilesController, 'getAvatar']).as('profile.getAvatar')
   })
   .prefix('/profile')
   .as('profile')

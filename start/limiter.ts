@@ -51,3 +51,39 @@ export const throttleRegister = limiter.define('register', (ctx) => {
       })
   )
 })
+
+export const throttlePosts = limiter.define('likes', (ctx) => {
+  return (
+    limiter
+      .allowRequests(10)
+      .every('60 minutes')
+      .blockFor('24 hours')
+      //Miiiiiiight return the proxy ip, test in production
+      .usingKey(`ip_${ctx.request.ip()}`)
+      .limitExceeded((error) => {
+        error
+          .setStatus(429)
+          .setMessage(
+            "Thanks for contributing to V and Bruno! We appreciate your enthusiasm! You've reached the maximum number of posts allowed within a short time. Our platform is small, relatively new, and prone to DDOS attacks. To protect our platform and ensure fair use, we've temporarily disabled new posts for a while. Please try again after a day"
+          )
+      })
+  )
+})
+
+export const throttleLikes = limiter.define('likes', (ctx) => {
+  return (
+    limiter
+      .allowRequests(50)
+      .every('10 minutes')
+      .blockFor('24 hours')
+      //Miiiiiiight return the proxy ip, test in production
+      .usingKey(`ip_${ctx.request.ip()}`)
+      .limitExceeded((error) => {
+        error
+          .setStatus(429)
+          .setMessage(
+            'Thanks for leaving likes, we are glad you are finding the content enjoyable. However, our system currently is relatively new and small and can handle only so much, it cannot tell whether it is a DDOS attempt or genuinely 50 likes in 10 minutes. Hence, we have to temporarily disable likes. It honestly guts and saddens me as a developer, I am genuinely sorry from the bottom of my heart - Vlad'
+          )
+      })
+  )
+})
