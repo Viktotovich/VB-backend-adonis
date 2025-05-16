@@ -7,10 +7,13 @@ export const updateProfileValidator = vine.compile(
     linkedinUrl: vine.string().url().maxLength(120).nullable(),
     //TODO: custom Insta verifier
     instagramUrl: vine.string().url().maxLength(120).nullable(),
+    //TODO: custom calendly link verifier
+    calendlyUrl: vine.string().url().maxLength(120).nullable(),
+    calendlyName: vine.string().minLength(5).maxLength(150).nullable(),
     //hopefully prevents malware scripts
     additionalUrl: vine.string().url().maxLength(120).nullable(),
     //Overlay on frontend with this name
-    additionalUrlName: vine.string().alphaNumeric().minLength(5).maxLength(150).nullable(),
+    additionalUrlName: vine.string().minLength(5).maxLength(150).nullable(),
 
     //Optional: user added contact number >> no email because, it's on the User Model
     mobileNumber: vine.string().mobile().minLength(5).maxLength(20).nullable(),

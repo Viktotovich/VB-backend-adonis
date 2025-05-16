@@ -18,6 +18,8 @@ export default class extends BaseSchema {
       //URLs
       table.string('linkedin_url', 120).nullable() //120 chars @ updateProfileValidator
       table.string('instagram_url', 120).nullable()
+      table.string('calendly_url', 120).nullable()
+      table.string('calendly_name', 150).nullable()
       table.string('additional_url', 120).nullable()
       table.string('additional_url_name', 150).nullable()
 

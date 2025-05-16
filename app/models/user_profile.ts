@@ -23,6 +23,12 @@ export default class UserProfile extends BaseModel {
   declare instagramUrl: string
 
   @column()
+  declare calendlyUrl: string
+
+  @column()
+  declare calendlyName: string
+
+  @column()
   declare additionalUrl: string
 
   @column()

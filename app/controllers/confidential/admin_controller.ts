@@ -4,7 +4,7 @@ import EmailOnlyLead from '#models/email_only_lead'
 import QualityLead from '#models/quality_lead'
 
 export default class AdminController {
-  async show({ request, response, auth }: HttpContext) {
+  async show({ response, auth }: HttpContext) {
     const user = auth.user
 
     if (!user) {
