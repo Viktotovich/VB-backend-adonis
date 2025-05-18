@@ -53,8 +53,8 @@ export default class ProfilesController {
   }
 
   //Other users can see other users' profiles
-  async public({ request, response, auth }: HttpContext) {
-    const user = auth.user
+  async public({ request, response }: HttpContext) {
+    //const user = auth.user
     const username = request.param('username')
 
     const foundUser = await User.findBy('username', username)
@@ -80,13 +80,11 @@ export default class ProfilesController {
       },
     }
 
-    if (!user) {
-      return response.json({
-        profileData: profileData,
-        editable: false,
-      })
-    }
+    //With the current implementation: it would never satisfy this condition
+    //We are not sending the auth_tokens on this request
+    //Commented out for future changes
 
+    /*
     if (foundUser.id === user.id) {
       return response.json({
         profileData: profileData,
@@ -95,6 +93,12 @@ export default class ProfilesController {
     }
 
     //user is authenticated, but not the owner of the profile
+    return response.json({
+      profileData: profileData,
+      editable: false,
+    })
+    */
+
     return response.json({
       profileData: profileData,
       editable: false,
