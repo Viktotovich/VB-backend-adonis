@@ -26,6 +26,7 @@ server.use([
   () => import('#middleware/container_bindings_middleware'),
   () => import('#middleware/force_json_response_middleware'),
   () => import('@adonisjs/cors/cors_middleware'),
+  () => import('#middleware/auth_cookie_parser_middleware'),
 ])
 
 /**
@@ -42,6 +43,5 @@ router.use([
  * the routes or the routes group.
  */
 export const middleware = router.named({
-  admin: () => import('#middleware/admin_middleware'),
   auth: () => import('#middleware/auth_middleware'),
 })

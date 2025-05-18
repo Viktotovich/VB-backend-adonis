@@ -16,7 +16,18 @@ export default class LoginController {
       })
 
       //3. Return access tokens
-      return response.json({ token, allowRedirect: true, type: 'bearer', userId: user.id })
+      response.cookie('auth_token', token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 7,
+        path: '/',
+      })
+
+      return response.ok({
+        allowRedirect: true,
+        userId: user.id,
+      })
     } catch (err) {
       //Bad Scenario -- something went wrong
       console.error('User login error: ' + err)
