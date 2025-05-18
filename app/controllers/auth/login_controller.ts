@@ -12,7 +12,7 @@ export default class LoginController {
       //2. Verify credentials
       const user = await User.verifyCredentials(email, password)
       const token = await User.accessTokens.create(user, ['server:read'], {
-        expiresIn: '30 days',
+        expiresIn: '7 days',
       })
 
       //3. Return access tokens

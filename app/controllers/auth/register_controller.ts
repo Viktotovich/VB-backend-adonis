@@ -36,7 +36,7 @@ export default class RegisterController {
 
       //3. Get a valid token for the user
       const token = await auth.use('api').createToken(user, ['server:read'], {
-        expiresIn: '30 days',
+        expiresIn: '7 days',
       })
 
       //3.5 Send an email to the user upon successful register
@@ -49,8 +49,16 @@ export default class RegisterController {
           .html(html)
       })
 
+      response.cookie('auth_token', token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 7,
+        path: '/',
+      })
+
       //4. Return to frontend
-      return response.json({ token, allowRedirect: true, type: 'bearer', userId: user.id })
+      return response.json({ allowRedirect: true, userId: user.id })
     } catch (err) {
       console.error(err)
       //test with errors, duplicate emails and other things
