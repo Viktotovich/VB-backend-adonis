@@ -6,7 +6,7 @@ export default class AuthCookieParserMiddleware {
     /**
      * Middleware logic goes here (before the next call)
      */
-    const token = ctx.request.cookie('auth_token')
+    const token = ctx.request.plainCookie('auth_token')
 
     if (token) {
       ctx.request.headers().authorization = 'Bearer ' + token

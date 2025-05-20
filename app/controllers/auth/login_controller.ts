@@ -16,7 +16,7 @@ export default class LoginController {
       })
 
       //3. Return access tokens
-      response.cookie('auth_token', token, {
+      response.plainCookie('auth_token', token, {
         httpOnly: true,
         secure: true,
         sameSite: 'none',

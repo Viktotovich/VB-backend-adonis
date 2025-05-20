@@ -49,7 +49,7 @@ export default class RegisterController {
           .html(html)
       })
 
-      response.cookie('auth_token', token, {
+      response.plainCookie('auth_token', token, {
         httpOnly: true,
         secure: true,
         sameSite: 'none',
