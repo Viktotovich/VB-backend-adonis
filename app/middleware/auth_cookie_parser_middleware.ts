@@ -9,7 +9,7 @@ export default class AuthCookieParserMiddleware {
     const token = ctx.request.cookie('auth_token')
 
     if (token) {
-      ctx.request.header('Authorization', 'Bearer ' + token)
+      ctx.request.headers().authorization = 'Bearer ' + token
     }
 
     /**
