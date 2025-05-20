@@ -19,7 +19,8 @@ export default class LoginController {
       response.cookie('auth_token', token, {
         httpOnly: true,
         secure: true,
-        sameSite: 'lax',
+        sameSite: 'none',
+        domain: '.vandbruno.net',
         maxAge: 60 * 60 * 24 * 7,
         path: '/',
       })
