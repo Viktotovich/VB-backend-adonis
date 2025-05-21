@@ -49,17 +49,8 @@ export default class RegisterController {
           .html(html)
       })
 
-      response.plainCookie('auth_token', token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none',
-        domain: '.vandbruno.net',
-        maxAge: 60 * 60 * 24 * 7,
-        path: '/',
-      })
-
       //4. Return to frontend
-      return response.json({ allowRedirect: true, userId: user.id })
+      return response.json({ token, type: 'bearer', allowRedirect: true, userId: user.id })
     } catch (err) {
       console.error(err)
       //test with errors, duplicate emails and other things

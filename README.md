@@ -33,3 +33,12 @@ Refer to this small guide whenever you need to commit, to standardize it from no
 
 Before this point, we did not really have much benefit from a rigid structure.
 However, from this point on we do.
+
+#### Let's speak cookies:
+
+We have tried implementing cookies up until commit #11b86d8, and finally found out
+why cookies won't work in our case. The oat tokens are too large and get silently
+dropped by the browser. Henceforth, no cookie parser with http credentials can be used
+in our case.
+
+To mitigate the risk of XSS, keep the validity of OATs short

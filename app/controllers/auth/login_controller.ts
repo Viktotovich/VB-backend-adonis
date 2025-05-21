@@ -16,16 +16,9 @@ export default class LoginController {
       })
 
       //3. Return access tokens
-      response.plainCookie('auth_token', token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none',
-        domain: '.vandbruno.net',
-        maxAge: 60 * 60 * 24 * 7,
-        path: '/',
-      })
-
-      return response.ok({
+      return response.json({
+        token,
+        type: 'bearer',
         allowRedirect: true,
         userId: user.id,
       })
