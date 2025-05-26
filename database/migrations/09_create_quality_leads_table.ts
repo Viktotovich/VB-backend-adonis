@@ -14,6 +14,8 @@ export default class extends BaseSchema {
       table.string('phone_number').nullable()
       table.string('additional_information', 500).nullable()
 
+      table.string('name').nullable()
+
       //status
       table.integer('lead_status').defaultTo(LeadStatuses.NEW)
 
