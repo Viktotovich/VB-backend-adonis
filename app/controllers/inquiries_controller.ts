@@ -23,7 +23,8 @@ export default class InquiriesController {
 
   async storeFull({ request, response }: HttpContext) {
     //catch the request fields
-    const { hasWebsite, requirements, email, phoneNumber, additionalInformation } = request.body()
+    const { hasWebsite, requirements, email, phoneNumber, additionalInformation, name } =
+      request.body()
 
     await QualityLead.create({
       hasWebsite,
@@ -31,6 +32,7 @@ export default class InquiriesController {
       email,
       phoneNumber,
       additionalInformation,
+      name,
     })
 
     console.log('Full Lead Registered')
