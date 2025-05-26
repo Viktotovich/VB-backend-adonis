@@ -9,7 +9,7 @@ import { defineConfig } from '@adonisjs/cors'
 const corsConfig = defineConfig({
   enabled: true,
   //Remove dev server
-  origin: ['https://www.vandbruno.net', 'http://localhost:4321'],
+  origin: ['https://www.vandbruno.net'],
   methods: ['GET', 'HEAD', 'POST', 'PUT', 'DELETE'],
   headers: true,
   exposeHeaders: [],
