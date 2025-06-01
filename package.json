@@ -1,6 +1,7 @@
 {
   "name": "backend-v2-adonis",
-  "version": "0.0.0",
+  "version": "2.1.0",
+  "description": "v2.1.0 Major breaking updates: Name field made mandatory on forms. Simple lead form depreciated (not fully yet). Index page hero form has a new flow which redirects users to fill in all the details. Projects/Case Studies page is now complete. DB migrated from neon to be fully on the server VPS.",
   "private": true,
   "type": "module",
   "license": "UNLICENSED",
